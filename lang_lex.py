@@ -3,7 +3,7 @@ from ply.lex import lex
 # --- TOKENIZER
 
 # PALAVRAS RESERVADAS
-reserved = ('def', 'void', 'int', 'float', 'str', 'return', 'if')
+reserved = ('def', 'void', 'int', 'float', 'str', 'return', 'if', 'else', 'for', 'print', 'read')
 
 tokens = reserved + ('RPAREN', 'LPAREN', 'RBRACES', 'LBRACES', 'RBRACK', 'LBRACK',
                      'COMMA', 'SEMICOL', 'COLON',
@@ -12,7 +12,7 @@ tokens = reserved + ('RPAREN', 'LPAREN', 'RBRACES', 'LBRACES', 'RBRACK', 'LBRACK
                      'COMMENT',
                      'IDENT', 'STRCONST', 'INTCONST', 'FLOATCONST')
 
-# Espaços e Tabs
+# Ignora Espaços e Tabs
 t_ignore = ' \t'
 
 # DELIMITADORES
