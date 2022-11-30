@@ -13,14 +13,16 @@ reserved = {'def': 'DEF',
             'else': 'ELSE',
             'for': 'FOR',
             'print': 'PRINT',
-            'read': 'READ'}
+            'read': 'READ',
+            'new': 'NEW'}
 
 tokens = list(reserved.values()) + ['RPAREN', 'LPAREN', 'RBRACES', 'LBRACES', 'RBRACK', 'LBRACK',
-                     'COMMA', 'SEMICOL', 'COLON',
-                     'EQUALS', 'MINUS', 'PLUS', 'TIMES', 'DIVIDE', 'OR', 'AND', 'NOT', 'LT', 'LE', 'GT', 'GE', 'EQ',
-                     'NE',
-                     'COMMENT',
-                     'IDENT', 'STRCONST', 'INTCONST', 'FLOATCONST']
+                                    'COMMA', 'SEMICOL', 'COLON',
+                                    'EQUALS', 'MINUS', 'PLUS', 'TIMES', 'DIVIDE', 'OR', 'AND', 'NOT', 'LT', 'LE', 'GT',
+                                    'GE', 'EQ',
+                                    'NE',
+                                    'COMMENT',
+                                    'IDENT', 'STRCONST', 'INTCONST', 'FLOATCONST']
 
 # Ignora Espaços e Tabs
 t_ignore = ' \t'
