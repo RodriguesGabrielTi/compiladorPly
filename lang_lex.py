@@ -3,14 +3,24 @@ from ply.lex import lex
 # --- TOKENIZER
 
 # PALAVRAS RESERVADAS
-reserved = ('def', 'void', 'int', 'float', 'str', 'return', 'if', 'else', 'for', 'print', 'read')
+reserved = {'def': 'DEF',
+            'void': 'VOID',
+            'int': 'INT',
+            'float': 'FLOAT',
+            'str': 'STR',
+            'return': 'RETURN',
+            'if': 'IF',
+            'else': 'ELSE',
+            'for': 'FOR',
+            'print': 'PRINT',
+            'read': 'READ'}
 
-tokens = reserved + ('RPAREN', 'LPAREN', 'RBRACES', 'LBRACES', 'RBRACK', 'LBRACK',
+tokens = list(reserved.values()) + ['RPAREN', 'LPAREN', 'RBRACES', 'LBRACES', 'RBRACK', 'LBRACK',
                      'COMMA', 'SEMICOL', 'COLON',
                      'EQUALS', 'MINUS', 'PLUS', 'TIMES', 'DIVIDE', 'OR', 'AND', 'NOT', 'LT', 'LE', 'GT', 'GE', 'EQ',
                      'NE',
                      'COMMENT',
-                     'IDENT', 'STRCONST', 'INTCONST', 'FLOATCONST')
+                     'IDENT', 'STRCONST', 'INTCONST', 'FLOATCONST']
 
 # Ignora Espaços e Tabs
 t_ignore = ' \t'
@@ -50,8 +60,7 @@ t_STRCONST = r'([\"][^\"]*[\"])'
 
 def t_IDENT(t):
     r'[a-zA-Z]([a-zA-Z]|[\d]|[\_])*'
-    if t.value in reserved:
-        t.type = t.value
+    t.type = reserved.get(t.value, 'IDENT')
     return t
 
 
@@ -114,7 +123,6 @@ if __name__ == "__main__":
 
     # Give the lexer some input
     lexer.input(data)
-
     # Tokenize
     while True:
         tok = lexer.token()
