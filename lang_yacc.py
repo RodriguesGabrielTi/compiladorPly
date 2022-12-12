@@ -1,6 +1,5 @@
 from ply.yacc import yacc
 from lang_lex import tokens, symbol_table, errors
-from symbol_table.scope.out_of_scope_exception import OutOfScopeException
 
 precedence = (
     ('left', 'PLUS', 'MINUS'),
@@ -153,6 +152,11 @@ def p_readstat(p):
 
 
 def p_returnstat(p):
+    '''returnstat : RETURN atribval'''
+    p[0] = ('return-stat', p[1], p[2])
+
+
+def p_returnstat_empty(p):
     '''returnstat : RETURN'''
     p[0] = ('return-stat', p[1])
 
