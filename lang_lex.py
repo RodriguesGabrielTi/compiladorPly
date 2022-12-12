@@ -259,49 +259,39 @@ def find_column(data, token):
     return (token.lexpos - line_start) + 1
 
 
-# Build the lexer object
-lexer = lex()
+def read_files():
+    codes = []
+    paths = ["kruskal.lcc"]
+    for path in paths:
+        with open(path, 'r') as file:
+            codes.append((path, file.read()))
+    return codes
+
+
 if __name__ == "__main__":
+    lexer = lex()
+    codes = read_files()
+    for code in codes:
+        file_name = code[0]
+        print(f"CODE: {file_name}")
+        symbol_table.program = code[1]
+        # lex.runmain(lexer)
 
-    data = '''
-    def func1( int A , int B )
-    {
-        int SM [2];
-        float SA = 10;
-        SM [0] = A + B ;
-        SM [1] = B * C ;
-        return;
-    }
-    def principal()
-    {
-    int C;
-    int D;
-    int R;
-    C = 4;
-    D = 5;
-    R = func1 (C , D );
-    return;
-    }
-    '''
+        # Teste exemplo do professor
 
-    symbol_table.program = data
-    # lex.runmain(lexer)
+        # Give the lexer some input
+        lexer.input(code[1])
+        # Tokenize
+        while True:
+            tok = lexer.token()
+            if not tok:
+                break  # No more input
+            # print(tok)
 
-    # Teste exemplo do professor
-
-    # Give the lexer some input
-    lexer.input(data)
-    # Tokenize
-    while True:
-        tok = lexer.token()
-        if not tok:
-            break  # No more input
-        # print(tok)
-
-    try:
-        symbol_table.end()
-    except OutOfScopeException as e:
-        errors.append(str(e))
-    symbol_table.pretty_print()
-    for error in errors:
-        print(error)
+        try:
+            symbol_table.end()
+        except OutOfScopeException as e:
+            errors.append(str(e))
+        symbol_table.pretty_print()
+        for error in errors:
+            print(error)
