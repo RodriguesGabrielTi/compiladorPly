@@ -68,6 +68,7 @@ def t_LPAREN(t):
 def t_RBRACES(t):
     r'\}'
     create_symbol_entry(t, TokenSuperType.DELIMITER)
+    return t
 
 
 def t_LBRACES(t):
@@ -240,7 +241,6 @@ def t_COMMENT(t):
     r'/\*(.|\n)*?\*/'
     create_symbol_entry(t, TokenSuperType.NON_TRIVIAL)
     t.lexer.lineno += t.value.count('\n')
-    return t
 
 
 # Error handler for illegal characters
@@ -275,9 +275,6 @@ if __name__ == "__main__":
         file_name = code[0]
         print(f"CODE: {file_name}")
         symbol_table.program = code[1]
-        # lex.runmain(lexer)
-
-        # Teste exemplo do professor
 
         # Give the lexer some input
         lexer.input(code[1])
@@ -286,8 +283,6 @@ if __name__ == "__main__":
             tok = lexer.token()
             if not tok:
                 break  # No more input
-            # print(tok)
-
         try:
             symbol_table.end()
         except OutOfScopeException as e:

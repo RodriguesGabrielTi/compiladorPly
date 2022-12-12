@@ -10,17 +10,17 @@ def create_graph(){
         str nameF = "";
         str nameS = "";
         int weight = 0;
-        while(s[i] != ','){
+        while(s[i] != ","){
             nameF = nameF + s[i];
             i = i + 1;
         }
         i = i + 1;
-        while(s[i] != ','){
+        while(s[i] != ","){
             nameS = nameS + s[i];
             i = i + 1;
         }
         i = i + 1;
-        while(s[i] != '\n'){
+        while(s[i] != "\n"){
             weight = s[i];
             i += 1;
         }
@@ -32,16 +32,16 @@ def create_graph(){
     return graph;
 }
 
-def get_edges(graph):
+def get_edges(tuple[] graph){
     edges = []
     for (x, y) in graph:
         for i, j in y:
             ttemp = (x, i, j)
             edges.append(ttemp)
     return edges
+}
 
-
-def ord_edges(edges):
+def ord_edges(edges){
     smaller = []
     greater = []
     if not edges:
@@ -55,16 +55,16 @@ def ord_edges(edges):
     smaller = ord_edges(smaller)
     greater = ord_edges(greater)
     return smaller + [pivot] + greater
+}
 
-
-def create_classes(graph):
+def create_classes(graph){
     vtemp = []
     for (x, y) in graph:
         vtemp.append([x])
     return vtemp
+}
 
-
-def get_class(x, vert):
+def get_class(x, vert){
     if not vert:
         return []
     else:
@@ -72,9 +72,9 @@ def get_class(x, vert):
             if x in tmp:
                 return tmp
         return []
+}
 
-
-def join_classes(x, y, vert):
+def join_classes(x, y, vert){
     class_x = get_class(x, vert)
     if y in class_x:
         return vert
@@ -83,9 +83,9 @@ def join_classes(x, y, vert):
         vertX = remove_class(class_x, vert)
         vertY = remove_class(class_y, vertX)
         return [class_x + class_y] + vertY
+}
 
-
-def remove_class(class_x, vert):
+def remove_class(class_x, vert){
     if not vert:
         return []
     else:
@@ -94,9 +94,9 @@ def remove_class(class_x, vert):
             return vert
         else:
             return [head] + (remove_class(class_x, vert))
+}
 
-
-def kruskal(graph):
+def kruskal(graph){
     tree_edges = []
     edges = get_edges(graph)
     classes = create_classes(graph)
@@ -109,11 +109,12 @@ def kruskal(graph):
             classes = join_classes(x, y, classes)
 
     return tree_edges
+}
 
-
-def main():
+def main(){
     mygraph = create_graph()
-    print "Graph: \n", mygraph
-    print "\nMinimum graph: \n", kruskal(mygraph)
+    print("Graph: \n", mygraph)
+    print("\nMinimum graph: \n", kruskal(mygraph))
+}
 
 main()
