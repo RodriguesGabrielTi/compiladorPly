@@ -68,6 +68,7 @@ def t_LPAREN(t):
 def t_RBRACES(t):
     r'\}'
     create_symbol_entry(t, TokenSuperType.DELIMITER)
+    return t
 
 
 def t_LBRACES(t):
@@ -240,7 +241,6 @@ def t_COMMENT(t):
     r'/\*(.|\n)*?\*/'
     create_symbol_entry(t, TokenSuperType.NON_TRIVIAL)
     t.lexer.lineno += t.value.count('\n')
-    return t
 
 
 # Error handler for illegal characters
