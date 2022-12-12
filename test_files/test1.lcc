@@ -1,6 +1,7 @@
 def func1( int A , int B ) {
     int SM [2];
-    float SA = 10;
+    float SA;
+    SA = 10;
     SM [0] = A + B ;
     SM [1] = B * C ;
     return;

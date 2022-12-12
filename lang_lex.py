@@ -267,9 +267,8 @@ def read_files():
             codes.append((path, file.read()))
     return codes
 
-
+lexer = lex()
 if __name__ == "__main__":
-    lexer = lex()
     codes = read_files()
     for code in codes:
         file_name = code[0]
