@@ -7,6 +7,7 @@ from symbol_table.symbol_table import SymbolTable
 
 errors: list[str] = []
 
+
 def create_symbol_entry(t, super_type: TokenSuperType):
     new_symbol = Symbol(t.type, super_type, t.value)
     line = t.lexer.lineno
@@ -17,7 +18,6 @@ def create_symbol_entry(t, super_type: TokenSuperType):
     except OutOfScopeException as e:
         errors.append(str(e))
         t.lexer.skip(1)
-
 
 
 # --- Symbol Table
@@ -34,6 +34,7 @@ reserved = {'def': 'DEF',
             'return': 'RETURN',
             'if': 'IF',
             'else': 'ELSE',
+            'while': 'WHILE',
             'for': 'FOR',
             'print': 'PRINT',
             'read': 'READ',
@@ -43,7 +44,7 @@ reserved = {'def': 'DEF',
 
 tokens = list(reserved.values()) + ['RPAREN', 'LPAREN', 'RBRACES', 'LBRACES', 'RBRACK', 'LBRACK',
                                     'COMMA', 'SEMICOL', 'COLON',
-                                    'EQUALS', 'MINUS', 'PLUS', 'TIMES', 'DIVIDE', 'MOD', 'OR', 'AND', 'NOT',
+                                    'EQUALS', 'MINUS', 'PLUS', 'TIMES', 'DIVIDE', 'MOD', 'OR', 'AND',
                                     'LT', 'LE', 'GT', 'GE', 'EQ', 'NE',
                                     'COMMENT',
                                     'IDENT', 'STRCONST', 'INTCONST', 'FLOATCONST']
@@ -153,12 +154,6 @@ def t_OR(t):
 
 def t_AND(t):
     r'&&'
-    create_symbol_entry(t, TokenSuperType.OPERATION)
-    return t
-
-
-def t_NOT(t):
-    r'!'
     create_symbol_entry(t, TokenSuperType.OPERATION)
     return t
 

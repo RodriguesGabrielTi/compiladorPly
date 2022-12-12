@@ -65,8 +65,6 @@ def p_statement(p):
                    | printstat SEMICOL
                    | readstat SEMICOL
                    | returnstat SEMICOL
-                   | ifstat SEMICOL
-                   | forstat SEMICOL
                    | BREAK SEMICOL'''
     p[0] = ('statement', p[1], p[2])
 
@@ -76,15 +74,27 @@ def p_statement_braces(p):
     p[0] = ('statement', p[1], p[2], p[3])
 
 
-def p_statement_semicol(p):
-    '''statement : SEMICOL'''
+def p_statement_one_element(p):
+    '''statement : SEMICOL
+                   | ifstat
+                   | forstat
+                   | whilestat'''
     p[0] = ('statement', p[1])
 
 
 def p_vardecl(p):
-    '''vardecl : typecast IDENT arr'''
-    p[0] = ('vardecl', p[1], p[2], p[3])
+    '''vardecl : typecast IDENT arr vardecl_val'''
+    p[0] = ('vardecl', p[1], p[2], p[3], p[4])
 
+
+def p_verdecl_val(p):
+    '''vardecl_val : EQUALS atribval'''
+    p[0] = ('vardecl-val', p[1], p[2])
+
+
+def p_verdecl_val_empty(p):
+    '''vardecl_val :'''
+    pass
 
 def p_arr(p):
     '''arr : LBRACK INTCONST RBRACK arr'''
@@ -161,9 +171,15 @@ def p_elsestat_empty(p):
     '''elsestat : '''
     pass
 
+
 def p_forstat(p):
     '''forstat : FOR LPAREN atribstat SEMICOL expression SEMICOL atribstat RPAREN statement'''
     p[0] = ('forstat', p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9])
+
+
+def p_whilestat(p):
+    '''whilestat : WHILE LPAREN expression RPAREN statement'''
+    p[0] = ('whilestat', p[1], p[2], p[3], p[4], p[5])
 
 
 def p_statelist(p):
@@ -182,8 +198,18 @@ def p_allocexpression(p):
 
 
 def p_expression(p):
-    '''expression : numexpression compexpr'''
-    p[0] = ('expression', p[1], p[2])
+    '''expression : numexpression compexpr expression_1'''
+    p[0] = ('expression', p[1], p[2], p[3])
+
+
+def p_expression_1(p):
+    '''expression_1 : logicop numexpression compexpr expression_1'''
+    p[0] = ('expression-1', p[1], p[2], p[3], p[4])
+
+
+def p_expression_1_empty(p):
+    '''expression_1 : '''
+    pass
 
 
 def p_compexpr(p):
@@ -284,6 +310,12 @@ def p_plusminus(p):
                    | MINUS'''
     p[0] = ('plus-minus', p[1])
 
+
+
+def p_logic_op(p):
+    '''logicop : AND
+                 | OR'''
+    p[0] = ('logic-op', p[1], p[2])
 
 def p_numexpressionarr(p):
     '''numexpressionarr : LBRACK numexpression RBRACK numexpressionarr'''
