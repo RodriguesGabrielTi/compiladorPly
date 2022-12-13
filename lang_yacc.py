@@ -338,7 +338,11 @@ def p_numexpressionarr_empty(p):
 
 # Error rule for syntax errors
 def p_error(p):
-    print(f"Erro de sintaxe no token {p}!")
+    if p:
+        print("Erro de sintaxe no token", p.type)
+        print("Linha:", p.lineno)
+    else:
+        print("Syntax error at EOF")
 
 
 # Build the parser
