@@ -1,0 +1,135 @@
+// Algoritmo de ordenação bubbleSort
+def bubbleSort(int nlist, int len_list) {
+    int return_list = new int[len_list];
+    int k;
+    for (k = 0; k < len_list; k = k + 1) {
+        return_list[k] = nlist[k];
+    }
+    int exchanges;
+    exchanges = 1;
+    while (len_list > 0 && exchanges != 0) {
+        exchanges = 0;
+        int i;
+        for (i = 0; i < len_list - 1; i = i + 1) {
+            int n = return_list[i];
+            int next = return_list[i+1];
+            if (n > nlist) {
+                exchanges = 1;
+                int temp = n;
+                return_list[i] = next;
+                return_list[i+1] = temp;
+            }
+            len_list = len_list - 1;
+        }
+    }
+
+    return return_list;
+}
+
+// Algoritmo bubbleSort com cálculo de complexidade
+def bubbleSortWithComplexity(int nlist, int len_list, int On) {
+    int return_list = new int[len_list];
+    int k;
+    for (k = 0; k < len_list; k = k + 1) {
+        return_list[k] = nlist[k];
+    }
+    int exchanges;
+    exchanges = 1;
+    while (len_list > 0 && exchanges != 0) {
+        exchanges = 0;
+        int i;
+        for (i = 0; i < len_list - 1; i = i + 1) {
+            int n = return_list[i];
+            int next = return_list[i+1];
+            if (n > nlist) {
+                exchanges = 1;
+                int temp = n;
+                return_list[i] = next;
+                return_list[i+1] = temp;
+            }
+            len_list = len_list - 1;
+            On[0] = On[0] + 1;
+        }
+    }
+
+    return return_list;
+}
+
+def main() {
+    int len = null;
+    int nlist;
+
+    print "Iniciar BubbleSort";
+    print "\n";
+
+    while (1) {
+        print "Digite o tamanho da lista: ";
+
+        while (len == null) {
+            read len;
+            print "\n";
+
+            if (len == null) {
+                 print "Digite um valor!!";
+                 print "\n";
+            }
+        }
+
+        nlist = new int[len];
+        int i;
+        for (i = 0; i < len; i = i + 1) {
+            int val = null;
+            str message = "Digite o valor da posicao" + i;
+            print message;
+            print "\n";
+            read val;
+
+            while (val == null) {
+                print "Digite um valor válido";
+                read val;
+            }
+            nlist[i] = val;
+        }
+
+        int finalList = new int[len];
+
+        str complexityResp = null;
+
+        print "Deseja calcular a complexidade? [Y|N] ";
+        print "\n";
+
+        while (complexityResp == null) {
+            read complexityResp;
+            if (complexityResp == "Y" || complexityResp == "yes") {
+                int On = new int[1];
+                On[0] = 0;
+                finalList = exec bubbleSortWithComplexity(nlist, len, On);
+            }
+
+            if (complexityResp == "N" || complexityResp == "no") {
+                finalList = exec bubbleSort(nlist, len);
+            } else {
+                print "Digite uma resposta válida: ";
+            }
+        }
+
+        print "Sua lista ordenada:";
+
+        print "\n";
+
+        int j;
+        for (j = 0; j < len; j = j + 1) {
+            print finalList[j];
+        }
+
+        str continue;
+        print "Deseja continuar ? [Y|n] ";
+        print "\n";
+        while (continue == null) {
+            read continue;
+            if (continue == "N" || continue == "no") {
+                break;
+            }
+        }
+    }
+}
