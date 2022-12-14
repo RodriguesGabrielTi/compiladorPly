@@ -1,0 +1,108 @@
+// Conversor de inteiro para string em binário;
+def int_to_bin(int n) {
+    str returnable = "";
+
+    if (n == 0) {
+        returnable = "0";
+    } else {
+        while (n != 0) {
+            returnable = n % 2 + returnable;
+            n = n / 2;
+        }
+    }
+
+    return returnable;
+}
+
+// Pega o tamanho de uma string
+// O algoritmo incrementa o tamanha até encontrar o caractere
+// nulo que marca o fim (\0)
+def get_str_len(str string) {
+    int i = 0;
+    str char = string[i];
+    // caracter nulo, fim do string
+    while (char != "\0") {
+        i = i + 1;
+        char = string[i];
+    }
+    return i;
+}
+
+
+// Calcula o xor entre dois buffers
+// Eles devem possuir o mesmo tamanho
+def xor(str buf1, str buf2, int len) {
+    str xored = "";
+    int i = 0;
+    for (i = 0; i < len; i = i + 1) {
+        str char1 = buf1[i];
+        str char2 = buf2[i];
+
+        if (char1 == char2) {
+            xored = "0" + xored;
+        } else {
+            xored = "1" + xored;
+        }
+    }
+   return xored;
+}
+
+// Adiciona zeros em um buffer para deixar ele com o mesmo tamanho do outro buffer
+def add_zeros(str buf, int n) {
+    int i;
+    for (i = 0; i < len; i = i + 1) {
+        buf = "0" + buf;
+    }
+    return buf;
+}
+
+def main() {
+    while (1) {
+        int number1 = null;
+        int number2 = null;
+
+        print "Insira um valor";
+        while (number1 == null) {
+            read number1;
+            if (number1 == null) {
+                print "Insira um valor válido!!!";
+            }
+        }
+
+        print "Insira um valor";
+        while (number2 == null) {
+            read number2;
+            if (number2 == null) {
+                print "Insira um valor válido!!!";
+            }
+        }
+
+        str buffer1 = exec int_to_bin(number1);
+        str buffer2 = exec int_to_bin(number2);
+
+        int len1 = exec get_str_len(buffer1);
+        int len2 = exec get_str_len(buffer2);
+
+        if (len1 > len2) {
+            int diff = len1 - len2;
+            buffer2 = exec add_zeros(buffer2, diff);
+        }
+
+        if (len1 < len2) {
+            int diff = len2 - len1;
+            buffer1 = exec add_zeros(buffer1, diff);
+        }
+
+        str xored = exec xor(buffer1, buffer2);
+
+        print xored;
+
+        str continue;
+        print "Deseja continuar ? [Y|n] ";
+        print "\n";
+        read continue;
+        if (continue == "N" || continue == "no") {
+            break;
+        }
+    }
+}
