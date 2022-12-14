@@ -1,0 +1,7 @@
+def main(){
+    str formula;
+    print "INICIANDO CALCULADOR DE FORMÚLAS MATEMÁTICAS";
+    print "Escolha umas das formulas(DIGITE O NÚMERO):\n--1.MEDIANA\n--2.MÉDIA\n--";
+}
+
+exec main();

@@ -1,113 +1,117 @@
-def make_operation(float number1, float number2, str operation){
-    /*função feita para decidir qual operação fazer*/
-    if(operation=="+"){
-        return sum(number1, number2);
+def make_operation(float number, float number, str operation){
+    if(operation="+"){
+        return exec sum(number1, number2);
     };
 
     if(operation=="*"){
-        return multiple(number1, number2);
+        return exec multiple(number1, number2);
     };
 
+    // testea aa sssd
     if(operation=="-"){
-        return sum(number1, number2);
+        return exec sum(number1, number2);
     };
 
     if(operation=="/"){
-        return divide(number1, number2);
+        return exec divide(number1, number2);
     };
 
     if(operation==">"){
-        return bigger(number1, number2);
+        return exec bigger(number1, number2);
     };
 
     if(operation=="<"){
-        return lower(number1, number2);
+        return exec lower(number1, number2);
     };
 
     if(operation=="%"){
-        return mod(number1, number2);
+        return exec mod(number1, number2);
     };
 
     if(operation=="^"){
-        return potentiation(number1, number2);
+        return exec potentiation(number1, number2);
     };
 }
 
-def potentiation(float number1; float number2){
-    /*função de potência*/
-    return number1 ^ number2;
+def potentiation(float number1, float number2){
+    int result = number1;
+    for (i = 0; i < number2; i = i + 1) {
+        result = number1 * result;
+    }
+    return result;
 }
 
-def sum(float number1; float number2){
-    /*função de soma*/
+def sum(float number1, float number2){
     return number1 + number2;
 }
 
 def divide(float number1, float number2){
-    /*função de divisão*/
     return number1 / number2;
 }
 
-def multiple(float number1; float number2){
-    /*função de multiplicação*/
+def multiple(float number1, float number2){
     return number1 * number2;
 }
 
-def subtraction(float number1; float number2){
-    /*função de subtração*/
+def subtraction(float number1, float number2){
     return number1 - number2;
 }
 
-def bigger(float number1; float number2){
-    /*pegar o maior valor*/
+def bigger(float number1, float number2){
     if(number1 > number2){
         return number1;
     };
     if(number2 > number1){
         return number2;
     } else {
-        return 'mesmo numero';
+        return "mesmo numero";
     }
 }
 
-def mod(float number1; float number2){
-    /*pegar o resto de uma divisão*/
+def mod(float number1, float number2){
     return number1 % number2;
 }
 
-def lower(float number1; float number2){
-    /*pegar o menor valor*/
+def lower(float number1, float number2){
     if(number1 < number2){
         return number1;
     };
     if(number2 < number1){
         return number2;
     } else {
-        return 'mesmo numero';
+        return "mesmo numero";
     }
 }
 
 def main(){
-    float numbers[2];
+    float number1;
+    float number2;
     str operation;
-    print("INICIANDO CALCULADORA...");
-    number[0] = read("Insira um valor");
-    operation = read("insira um simbolo de opereção (+ ; * ; - ; / ; %)");
-    number[1] = read("Insira um novo valor");
-    print(make_operation(number[0], number[1], operation));
-    while(true){
-        operation = read("insira um simbolo de opereção (+ ; * ; - ; / ; % ; > ; < ; exit ) ou vazio para insira um novo valor principal");
+    print "INICIANDO CALCULADORA...";
+    print "Insira um valor";
+    read number1;
+    print "insira um simbolo de opereção (+ ; * ; - ; / ; %)";
+    read operation;
+    print "Insira outro valor";
+    read number2;
+    float result = exec make_operation(number1, number2, operation);
+    print result;
+    while(1){
+        print "insira um simbolo de opereção (+ ; * ; - ; / ; % ; > ; < ; exit ) ou vazio para insira um novo valor principal";
+        read operation;
         while(operation==null){
-            number[0] = read("Insira um novo valor");
-            operation = read("insira um simbolo de opereção (+ ; * ; - ; / ; % ; > ; < ; ^) ou vazio para insira um novo valor principal");
+            print "Insira um valor";
+            read number1;
+            print "insira um simbolo de opereção (+ ; * ; - ; / ; %)";
+            read operation;
         };
         if (operation=="exit"){
-            print("Até mais! :)");
+            print "Até mais! :)";
             return null;
         }
-        number[1] = read("Insira um novo valor");
-        print(make_operation(number[0], number[1], operation));
+        print "Insira um valor";
+        read number1;
+        float result2 = exec make_operation(number1, number2, operation);
+        print result2;
     }
 }
-
-main();

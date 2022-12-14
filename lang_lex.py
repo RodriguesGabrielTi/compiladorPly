@@ -41,6 +41,7 @@ reserved = {'def': 'DEF',
             'new': 'NEW',
             'break': 'BREAK',
             'null': 'NULL',
+            'len': 'LEN',
             'exec': 'EXEC'}
 
 tokens = list(reserved.values()) + ['RPAREN', 'LPAREN', 'RBRACES', 'LBRACES', 'RBRACK', 'LBRACK',
@@ -240,7 +241,7 @@ def t_ignore_newline(t):
 
 # Comment (C-Style)
 def t_COMMENT(t):
-    r'/\*(.|\n)*?\*/'
+    r'^\#(.*)'
     create_symbol_entry(t, TokenSuperType.NON_TRIVIAL)
     t.lexer.lineno += t.value.count('\n')
 
@@ -263,7 +264,7 @@ def find_column(data, token):
 
 def read_files():
     codes = []
-    paths = ["kruskal.lcc"]
+    paths = ["formulas.lcc"]
     for path in paths:
         with open(path, 'r') as file:
             codes.append((path, file.read()))
