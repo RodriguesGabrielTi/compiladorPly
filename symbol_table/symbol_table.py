@@ -11,18 +11,17 @@ class SymbolTable:
 
     def add_symbol(self, new_symbol: Symbol, occurrence: Occurrence):
         new_symbol.scope = self.__scope_tree.scope
-        match new_symbol.token_type:
-            case 'LBRACES' | 'LPAREN' | 'LBRACK':
-                self.__scope_tree.open_scope(new_symbol)
-            case 'RBRACES' | 'RPAREN' | 'RBRACK':
-                self.__scope_tree.leave_scope(new_symbol, occurrence)
-            case 'IDENT':
-                for symbol in self.__symbols:
-                    if symbol.word == new_symbol.word and symbol.scope.id in new_symbol.scope.id:
-                        symbol.occurrences.append(occurrence)
-                        return
-                new_symbol.occurrences.append(occurrence)
-                self.__symbols.append(new_symbol)
+        if new_symbol.token_type in ['LBRACES', 'LPAREN', 'LBRACK']:
+            self.__scope_tree.open_scope(new_symbol)
+        if new_symbol.token_type in ['RBRACES', 'RPAREN', 'RBRACK']:
+            self.__scope_tree.leave_scope(new_symbol, occurrence)
+        if new_symbol.token_type == 'IDENT':
+            for symbol in self.__symbols:
+                if symbol.word == new_symbol.word and symbol.scope.id in new_symbol.scope.id:
+                    symbol.occurrences.append(occurrence)
+                    return
+            new_symbol.occurrences.append(occurrence)
+            self.__symbols.append(new_symbol)
 
     @property
     def symbols(self):

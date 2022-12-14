@@ -4,13 +4,12 @@ from symbol_table.scope.out_of_scope_exception import OutOfScopeException
 
 
 def get_scope_symbol_from_token(token_type: str):
-    match token_type:
-        case 'LBRACES' | 'RBRACES':
-            return ScopeSymbol.BRACE
-        case 'LBRACK' | 'RBRACK':
-            return ScopeSymbol.BRACK
-        case 'LPAREN' | 'RPAREN':
-            return ScopeSymbol.PAREN
+    if token_type in ['LBRACES', 'RBRACES']:
+        return ScopeSymbol.BRACE
+    if token_type in ['LBRACK', 'RBRACK']:
+        return ScopeSymbol.BRACK
+    if token_type in ['LPAREN', 'RPAREN']:
+        return ScopeSymbol.PAREN
 
 class ScopeTree:
     def __init__(self,):

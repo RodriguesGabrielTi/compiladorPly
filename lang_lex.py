@@ -1,3 +1,5 @@
+from typing import List
+
 from ply.lex import lex
 
 from symbol_table.scope.out_of_scope_exception import OutOfScopeException
@@ -5,7 +7,7 @@ from symbol_table.symbol import Symbol, Occurrence, TokenSuperType
 from symbol_table.symbol_table import SymbolTable
 
 
-errors: list[str] = []
+errors: List[str] = []
 
 
 def create_symbol_entry(t, super_type: TokenSuperType):
@@ -41,7 +43,6 @@ reserved = {'def': 'DEF',
             'new': 'NEW',
             'break': 'BREAK',
             'null': 'NULL',
-            'len': 'LEN',
             'exec': 'EXEC'}
 
 # Token

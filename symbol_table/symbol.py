@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import List
 
 from symbol_table.scope.scope import Scope
 
@@ -24,5 +25,5 @@ class Symbol:
     super_type: TokenSuperType
     word: str
     scope: Scope = None
-    occurrences: list[Occurrence] = field(default_factory=list)
+    occurrences: List[Occurrence] = field(default_factory=list)
 
