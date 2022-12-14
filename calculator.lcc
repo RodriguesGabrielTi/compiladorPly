@@ -1,0 +1,113 @@
+def make_operation(float number1, float number2, str operation){
+    /*função feita para decidir qual operação fazer*/
+    if(operation=="+"){
+        return sum(number1, number2);
+    };
+
+    if(operation=="*"){
+        return multiple(number1, number2);
+    };
+
+    if(operation=="-"){
+        return sum(number1, number2);
+    };
+
+    if(operation=="/"){
+        return divide(number1, number2);
+    };
+
+    if(operation==">"){
+        return bigger(number1, number2);
+    };
+
+    if(operation=="<"){
+        return lower(number1, number2);
+    };
+
+    if(operation=="%"){
+        return mod(number1, number2);
+    };
+
+    if(operation=="^"){
+        return potentiation(number1, number2);
+    };
+}
+
+def potentiation(float number1; float number2){
+    /*função de potência*/
+    return number1 ^ number2;
+}
+
+def sum(float number1; float number2){
+    /*função de soma*/
+    return number1 + number2;
+}
+
+def divide(float number1, float number2){
+    /*função de divisão*/
+    return number1 / number2;
+}
+
+def multiple(float number1; float number2){
+    /*função de multiplicação*/
+    return number1 * number2;
+}
+
+def subtraction(float number1; float number2){
+    /*função de subtração*/
+    return number1 - number2;
+}
+
+def bigger(float number1; float number2){
+    /*pegar o maior valor*/
+    if(number1 > number2){
+        return number1;
+    };
+    if(number2 > number1){
+        return number2;
+    } else {
+        return 'mesmo numero';
+    }
+}
+
+def mod(float number1; float number2){
+    /*pegar o resto de uma divisão*/
+    return number1 % number2;
+}
+
+def lower(float number1; float number2){
+    /*pegar o menor valor*/
+    if(number1 < number2){
+        return number1;
+    };
+    if(number2 < number1){
+        return number2;
+    } else {
+        return 'mesmo numero';
+    }
+}
+
+def main(){
+    float numbers[2];
+    str operation;
+    print("INICIANDO CALCULADORA...");
+    number[0] = read("Insira um valor");
+    operation = read("insira um simbolo de opereção (+ ; * ; - ; / ; %)");
+    number[1] = read("Insira um novo valor");
+    print(make_operation(number[0], number[1], operation));
+    while(true){
+        operation = read("insira um simbolo de opereção (+ ; * ; - ; / ; % ; > ; < ; exit ) ou vazio para insira um novo valor principal");
+        while(operation==null){
+            number[0] = read("Insira um novo valor");
+            operation = read("insira um simbolo de opereção (+ ; * ; - ; / ; % ; > ; < ; ^) ou vazio para insira um novo valor principal");
+        };
+        if (operation=="exit"){
+            print("Até mais! :)");
+            return null;
+        }
+        number[1] = read("Insira um novo valor");
+        print(make_operation(number[0], number[1], operation));
+    }
+}
+
+main();

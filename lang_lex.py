@@ -44,7 +44,7 @@ reserved = {'def': 'DEF',
 
 tokens = list(reserved.values()) + ['RPAREN', 'LPAREN', 'RBRACES', 'LBRACES', 'RBRACK', 'LBRACK',
                                     'COMMA', 'SEMICOL', 'COLON',
-                                    'EQUALS', 'MINUS', 'PLUS', 'TIMES', 'DIVIDE', 'MOD', 'OR', 'AND',
+                                    'EQUALS', 'MINUS', 'PLUS', 'TIMES', 'POT', 'DIVIDE', 'MOD', 'OR', 'AND',
                                     'LT', 'LE', 'GT', 'GE', 'EQ', 'NE',
                                     'COMMENT',
                                     'IDENT', 'STRCONST', 'INTCONST', 'FLOATCONST']
@@ -130,6 +130,12 @@ def t_PLUS(t):
 
 def t_TIMES(t):
     r'\*'
+    create_symbol_entry(t, TokenSuperType.OPERATION)
+    return t
+
+
+def t_POT(t):
+    r'\^'
     create_symbol_entry(t, TokenSuperType.OPERATION)
     return t
 
@@ -261,6 +267,7 @@ def read_files():
         with open(path, 'r') as file:
             codes.append((path, file.read()))
     return codes
+
 
 lexer = lex()
 if __name__ == "__main__":
