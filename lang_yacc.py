@@ -118,8 +118,8 @@ def p_atribval(p):
 
 
 def p_funccall(p):
-    '''funccall : IDENT LPAREN paramlistcall RPAREN'''
-    p[0] = ('funccall', p[1], p[2], p[3], p[4])
+    '''funccall : EXEC IDENT LPAREN paramlistcall RPAREN'''
+    p[0] = ('funccall', p[1], p[2], p[3], p[4], p[5])
 
 
 def p_paramlistcall(p):
@@ -152,13 +152,18 @@ def p_readstat(p):
 
 
 def p_returnstat(p):
-    '''returnstat : RETURN atribval'''
+    '''returnstat : RETURN returnable'''
     p[0] = ('return-stat', p[1], p[2])
 
 
-def p_returnstat_empty(p):
-    '''returnstat : RETURN'''
-    p[0] = ('return-stat', p[1])
+def p_returnable(p):
+    '''returnable : atribval'''
+    p[0] = ('returnable', p[1])
+
+
+def p_returnable_empty(p):
+    '''returnable : '''
+    pass
 
 
 def p_ifstat(p):
@@ -328,11 +333,16 @@ def p_numexpressionarr(p):
 
 def p_numexpressionarr_empty(p):
     '''numexpressionarr : '''
+    pass
 
 
 # Error rule for syntax errors
 def p_error(p):
-    print(f"Erro de sintaxe no token {p}!")
+    if p:
+        print("Erro de sintaxe no token", p.type)
+        print("Linha:", p.lineno)
+    else:
+        print("Syntax error at EOF")
 
 
 # Build the parser

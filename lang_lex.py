@@ -40,7 +40,8 @@ reserved = {'def': 'DEF',
             'read': 'READ',
             'new': 'NEW',
             'break': 'BREAK',
-            'null': 'NULL'}
+            'null': 'NULL',
+            'exec': 'EXEC'}
 
 tokens = list(reserved.values()) + ['RPAREN', 'LPAREN', 'RBRACES', 'LBRACES', 'RBRACK', 'LBRACK',
                                     'COMMA', 'SEMICOL', 'COLON',
