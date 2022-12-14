@@ -43,10 +43,11 @@ reserved = {'def': 'DEF',
             'null': 'NULL',
             'exec': 'EXEC'}
 
+# Token
 tokens = list(reserved.values()) + ['RPAREN', 'LPAREN', 'RBRACES', 'LBRACES', 'RBRACK', 'LBRACK',
                                     'COMMA', 'SEMICOL', 'COLON',
-                                    'EQUALS', 'MINUS', 'PLUS', 'TIMES', 'DIVIDE', 'MOD', 'OR', 'AND',
                                     'LT', 'LE', 'GT', 'GE', 'EQ', 'NE',
+                                    'EQUALS', 'MINUS', 'PLUS', 'TIMES', 'DIVIDE', 'MOD', 'OR', 'AND',
                                     'COMMENT',
                                     'IDENT', 'STRCONST', 'INTCONST', 'FLOATCONST']
 
@@ -54,39 +55,51 @@ tokens = list(reserved.values()) + ['RPAREN', 'LPAREN', 'RBRACES', 'LBRACES', 'R
 t_ignore = ' \t'
 
 
+# Line comment
+def t_COMMENT(t):
+    r'(//.*?(\n|$))'
+    t.lexer.lineno += t.value.count('\n')
+
+
 # DELIMITADORES
 def t_RPAREN(t):
     r'\)'
+    # Calculo de escopo
     create_symbol_entry(t, TokenSuperType.DELIMITER)
     return t
 
 
 def t_LPAREN(t):
     r'\('
+    # Calculo de escopo
     create_symbol_entry(t, TokenSuperType.DELIMITER)
     return t
 
 
 def t_RBRACES(t):
     r'\}'
+    # Calculo de escopo
     create_symbol_entry(t, TokenSuperType.DELIMITER)
     return t
 
 
 def t_LBRACES(t):
     r'\{'
+    # Calculo de escopo
     create_symbol_entry(t, TokenSuperType.DELIMITER)
     return t
 
 
 def t_RBRACK(t):
     r'\]'
+    # Calculo de escopo
     create_symbol_entry(t, TokenSuperType.DELIMITER)
     return t
 
 
 def t_LBRACK(t):
     r'\['
+    # Calculo de escopo
     create_symbol_entry(t, TokenSuperType.DELIMITER)
     return t
 
@@ -94,110 +107,94 @@ def t_LBRACK(t):
 # PONTUAÇÃO
 def t_COMMA(t):
     r','
-    create_symbol_entry(t, TokenSuperType.PUNCTUATION)
     return t
 
 
 def t_SEMICOL(t):
     r';'
-    create_symbol_entry(t, TokenSuperType.PUNCTUATION)
     return t
 
 
 def t_COLON(t):
     r':'
-    create_symbol_entry(t, TokenSuperType.PUNCTUATION)
     return t
 
 
 # OPERAÇÕES
-def t_EQUALS(t):
-    r'='
-    create_symbol_entry(t, TokenSuperType.OPERATION)
-    return t
-
-
-def t_MINUS(t):
-    r'-'
-    create_symbol_entry(t, TokenSuperType.OPERATION)
-    return t
-
-
-def t_PLUS(t):
-    r'\+'
-    create_symbol_entry(t, TokenSuperType.OPERATION)
-    return t
-
-
-def t_TIMES(t):
-    r'\*'
-    create_symbol_entry(t, TokenSuperType.OPERATION)
-    return t
-
-
-def t_DIVIDE(t):
-    r'/'
-    create_symbol_entry(t, TokenSuperType.OPERATION)
-    return t
-
-
-def t_MOD(t):
-    r'%'
-    create_symbol_entry(t, TokenSuperType.OPERATION)
-    return t
-
-
 def t_OR(t):
     r'\|\|'
-    create_symbol_entry(t, TokenSuperType.OPERATION)
     return t
 
 
 def t_AND(t):
     r'&&'
-    create_symbol_entry(t, TokenSuperType.OPERATION)
     return t
 
-
-def t_LT(t):
-    r'<'
-    create_symbol_entry(t, TokenSuperType.OPERATION)
-    return t
-
-
-def t_GT(t):
-    r'>'
-    create_symbol_entry(t, TokenSuperType.OPERATION)
-    return t
 
 
 def t_LE(t):
     r'<='
-    create_symbol_entry(t, TokenSuperType.OPERATION)
     return t
+
 
 def t_GE(t):
     r'>='
-    create_symbol_entry(t, TokenSuperType.OPERATION)
     return t
 
 
 def t_EQ(t):
     r'=='
-    create_symbol_entry(t, TokenSuperType.OPERATION)
     return t
 
 
 def t_NE(t):
     r'!='
-    create_symbol_entry(t, TokenSuperType.OPERATION)
+    return t
+
+
+def t_EQUALS(t):
+    r'='
+    return t
+
+
+def t_MINUS(t):
+    r'-'
+    return t
+
+
+def t_PLUS(t):
+    r'\+'
+    return t
+
+
+def t_TIMES(t):
+    r'\*'
+    return t
+
+
+def t_DIVIDE(t):
+    r'/'
+    return t
+
+
+def t_MOD(t):
+    r'%'
+    return t
+
+
+def t_LT(t):
+    r'<'
+    return t
+
+
+def t_GT(t):
+    r'>'
     return t
 
 
 # SIMBOLOS NÃO TRIVIAIS
 def t_STRCONST(t):
     r'([\"][^\"]*[\"])'
-    create_symbol_entry(t, TokenSuperType.NON_TRIVIAL)
     return t
 
 
@@ -205,41 +202,30 @@ def t_IDENT(t):
     r'[a-zA-Z]([a-zA-Z]|[\d]|[\_])*'
     t.type = reserved.get(t.value, 'IDENT')
     if t.type == 'IDENT':
-        supertype = TokenSuperType.NON_TRIVIAL
-    else:
-        supertype = TokenSuperType.RESERVED_WORD
-    create_symbol_entry(t, supertype)
+        # Adiciona na tabela de símbolos
+        create_symbol_entry(t, TokenSuperType.NON_TRIVIAL)
     return t
 
 
 def t_INTCONST(t):
     r'(\+|-)?\d+'
     t.value = int(t.value)
-    create_symbol_entry(t, TokenSuperType.NON_TRIVIAL)
     return t
 
 
 def t_FLOATCONST(t):
     r'(\+|-)?[\d]+([\.])?[\d]+'
     t.value = float(t.value)
-    create_symbol_entry(t, TokenSuperType.NON_TRIVIAL)
     return t
 
 
-# Ignored token with an action associated with it
+# Ignora quebras de linha
 def t_ignore_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count('\n')
 
 
-# Comment (C-Style)
-def t_COMMENT(t):
-    r'/\*(.|\n)*?\*/'
-    create_symbol_entry(t, TokenSuperType.NON_TRIVIAL)
-    t.lexer.lineno += t.value.count('\n')
-
-
-# Error handler for illegal characters
+# Erro para palavras ilegais
 def t_error(t):
     errors.append(f'Palavra inválida {t.value[0]!r} \n'
           f'linha: {t.lexer.lineno} \n'
@@ -247,9 +233,7 @@ def t_error(t):
     t.lexer.skip(1)
 
 
-# Compute column.
-#     input is the input text string
-#     token is a token instance
+# Calcula a coluna com base na posição do token e a linha atual
 def find_column(data, token):
     line_start = data.rfind('\n', 0, token.lexpos) + 1
     return (token.lexpos - line_start) + 1
@@ -263,25 +247,5 @@ def read_files():
             codes.append((path, file.read()))
     return codes
 
-lexer = lex()
-if __name__ == "__main__":
-    codes = read_files()
-    for code in codes:
-        file_name = code[0]
-        print(f"CODE: {file_name}")
-        symbol_table.program = code[1]
 
-        # Give the lexer some input
-        lexer.input(code[1])
-        # Tokenize
-        while True:
-            tok = lexer.token()
-            if not tok:
-                break  # No more input
-        try:
-            symbol_table.end()
-        except OutOfScopeException as e:
-            errors.append(str(e))
-        symbol_table.pretty_print()
-        for error in errors:
-            print(error)
+lexer = lex()

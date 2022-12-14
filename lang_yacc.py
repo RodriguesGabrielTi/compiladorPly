@@ -324,7 +324,7 @@ def p_plusminus(p):
 def p_logic_op(p):
     '''logicop : AND
                  | OR'''
-    p[0] = ('logic-op', p[1], p[2])
+    p[0] = ('logic-op', p[1])
 
 def p_numexpressionarr(p):
     '''numexpressionarr : LBRACK numexpression RBRACK numexpressionarr'''
@@ -336,39 +336,17 @@ def p_numexpressionarr_empty(p):
     pass
 
 
-# Error rule for syntax errors
+# Mostra o StackTrace do erro e sai do programa
 def p_error(p):
     if p:
-        print("Erro de sintaxe no token", p.type)
-        print("Linha:", p.lineno)
+        parser.symstack.reverse()
+        message = "Erro de sintaxe no token " + p.type + "\nLinha:" + str(p.lineno)
+        message = message + "\n\n" + "Stack do sistema\n" + "\n".join(str(p) for p in parser.symstack)
+        print(message)
+        exit(0)
     else:
         print("Syntax error at EOF")
 
 
 # Build the parser
 parser = yacc()
-
-if __name__ == '__main__':
-
-    s = '''def func1( int A , int B )
-    {
-        int SM [2];
-        SM [0] = A + B;
-        SM [1] = B * C;
-        return;
-    }
-    def principal()
-    {
-    int C;
-    int D;
-    int R;
-    C = 4;
-    D = 5;
-    R = func1 (C , D );
-    return;
-    }
-    '''
-
-    symbol_table.program = s
-    result = parser.parse(s, debug=False)
-    print(result)
