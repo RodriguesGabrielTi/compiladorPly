@@ -324,7 +324,7 @@ def p_plusminus(p):
 def p_logic_op(p):
     '''logicop : AND
                  | OR'''
-    p[0] = ('logic-op', p[1], p[2])
+    p[0] = ('logic-op', p[1])
 
 def p_numexpressionarr(p):
     '''numexpressionarr : LBRACK numexpression RBRACK numexpressionarr'''

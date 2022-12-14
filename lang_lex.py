@@ -46,13 +46,19 @@ reserved = {'def': 'DEF',
 # Token
 tokens = list(reserved.values()) + ['RPAREN', 'LPAREN', 'RBRACES', 'LBRACES', 'RBRACK', 'LBRACK',
                                     'COMMA', 'SEMICOL', 'COLON',
-                                    'EQUALS', 'MINUS', 'PLUS', 'TIMES', 'DIVIDE', 'MOD', 'OR', 'AND',
                                     'LT', 'LE', 'GT', 'GE', 'EQ', 'NE',
+                                    'EQUALS', 'MINUS', 'PLUS', 'TIMES', 'DIVIDE', 'MOD', 'OR', 'AND',
                                     'COMMENT',
                                     'IDENT', 'STRCONST', 'INTCONST', 'FLOATCONST']
 
 # Ignora Espaços e Tabs
 t_ignore = ' \t'
+
+
+# Line comment
+def t_COMMENT(t):
+    r'(//.*?(\n|$))'
+    t.lexer.lineno += t.value.count('\n')
 
 
 # DELIMITADORES
@@ -115,6 +121,37 @@ def t_COLON(t):
 
 
 # OPERAÇÕES
+def t_OR(t):
+    r'\|\|'
+    return t
+
+
+def t_AND(t):
+    r'&&'
+    return t
+
+
+
+def t_LE(t):
+    r'<='
+    return t
+
+
+def t_GE(t):
+    r'>='
+    return t
+
+
+def t_EQ(t):
+    r'=='
+    return t
+
+
+def t_NE(t):
+    r'!='
+    return t
+
+
 def t_EQUALS(t):
     r'='
     return t
@@ -145,16 +182,6 @@ def t_MOD(t):
     return t
 
 
-def t_OR(t):
-    r'\|\|'
-    return t
-
-
-def t_AND(t):
-    r'&&'
-    return t
-
-
 def t_LT(t):
     r'<'
     return t
@@ -162,25 +189,6 @@ def t_LT(t):
 
 def t_GT(t):
     r'>'
-    return t
-
-
-def t_LE(t):
-    r'<='
-    return t
-
-def t_GE(t):
-    r'>='
-    return t
-
-
-def t_EQ(t):
-    r'=='
-    return t
-
-
-def t_NE(t):
-    r'!='
     return t
 
 
@@ -214,12 +222,6 @@ def t_FLOATCONST(t):
 # Ignora quebras de linha
 def t_ignore_newline(t):
     r'\n+'
-    t.lexer.lineno += t.value.count('\n')
-
-
-# Comment (C-Style)
-def t_COMMENT(t):
-    r'/\*(.|\n)*?\*/'
     t.lexer.lineno += t.value.count('\n')
 
 
