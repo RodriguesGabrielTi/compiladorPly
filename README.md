@@ -15,7 +15,7 @@ make run ARGS="test_files/test1.lcc"
 
 Como parâmetro opcional, é possível colocar:
 - -t ou --table, para a tabela de atributos também aparecer na saída;
-- -s ou --save para a saída da análise sintática ser mostrada na tela;
+- -r ou --raw para a saída da ser mostrada no terminal no lugar de salva em um arquivo;
 - -d ou --debug para rodar o programa com logs de debug.
 
 Recomenda-se rodar o programa com as duas primeira opções para melhor legibilidade:

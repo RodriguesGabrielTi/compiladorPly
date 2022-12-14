@@ -21,9 +21,8 @@ class SymbolTable:
                     if symbol.word == new_symbol.word and symbol.scope.id in new_symbol.scope.id:
                         symbol.occurrences.append(occurrence)
                         return
-
-        new_symbol.occurrences.append(occurrence)
-        self.__symbols.append(new_symbol)
+                new_symbol.occurrences.append(occurrence)
+                self.__symbols.append(new_symbol)
 
     @property
     def symbols(self):
@@ -51,3 +50,8 @@ class SymbolTable:
 
     def end(self):
         self.__scope_tree.check_end_of_input()
+
+    def clear(self):
+        self.__program = None
+        self.__symbols = []
+        self.__scope_tree = ScopeTree()
